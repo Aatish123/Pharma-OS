@@ -1,0 +1,130 @@
+/* styles.css — shared styling for all Pharma OS pages.
+   Colour tokens and type scale come from CLAUDE.md. Keep them here, in one place. */
+
+:root {
+  /* Layer colours — the stack ascends in colour, cool at the data layer to warm at decision layer */
+  --l1-data:      #1E88E5;  /* Data Foundation       */
+  --l2-context:   #2E9E6B;  /* Pharma Context        */
+  --l3-intel:     #0FA3A3;  /* Decision Intelligence */
+  --l4-agents:    #2D5FD0;  /* Agent Network         */
+  --l5-workflow:  #7B4BC4;  /* Business Workflows    */
+  --l6-cockpit:   #A32BA8;  /* Decision Cockpits     */
+
+  --ink:        #0F172A;
+  --ink-muted:  #5A6577;
+  --ink-faint:  #94A0B3;
+  --paper:      #FFFFFF;
+  --canvas:     #F6F8FB;
+  --hairline:   #E3E8EF;
+  --gov:        #475569;   /* governance rail — deliberately neutral */
+  --flag:       #B45309;   /* unconfirmed [?] items                 */
+
+  --font-display: "Sora", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--l4-agents);
+  outline-offset: 2px;
+}
+
+.page-header {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px 32px 24px;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+}
+
+.page-header p {
+  color: var(--ink-muted);
+  margin-top: 8px;
+  font-size: 1.05rem;
+}
+
+/* --- Six-layer stack --- */
+
+.stack {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 32px 64px;
+  display: flex;
+  flex-direction: column-reverse; /* data is entry [0]; column-reverse puts it at the bottom */
+  gap: 4px;
+}
+
+.layer {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 22px 28px;
+  border-radius: 6px;
+  color: #FFFFFF;
+  border: 1px solid var(--hairline);
+}
+
+.layer-number {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.layer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.layer-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.layer-tagline {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  opacity: 0.92;
+}
+
+.page-footer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 32px 48px;
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+}

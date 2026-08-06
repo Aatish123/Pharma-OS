@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharma OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="page-header">
+    <h1>Pharma OS</h1>
+    <p>The enterprise decision operating system for life sciences — six layers, bottom to top.</p>
+  </header>
+
+  <main>
+    <div class="stack" id="stack"></div>
+  </main>
+
+  <footer class="page-footer">
+    Synthetic demonstration data.
+  </footer>
+
+  <script src="content.js"></script>
+  <script>
+    const stack = document.getElementById("stack");
+
+    PHARMA_OS_LAYERS.forEach((layer) => {
+      const el = document.createElement("section");
+      el.className = "layer";
+      el.style.backgroundColor = `var(${layer.colorVar})`;
+
+      el.innerHTML = `
+        <span class="layer-number">L${layer.number}</span>
+        <div class="layer-body">
+          <h2 class="layer-name">${layer.name}</h2>
+          <p class="layer-tagline">${layer.tagline}</p>
+        </div>
+      `;
+
+      stack.appendChild(el);
+    });
+  </script>
+</body>
+</html>
