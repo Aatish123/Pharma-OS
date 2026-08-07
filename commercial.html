@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commercial Growth OS — Pharma OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="page-header">
+    <p class="page-eyebrow"><a href="index.html">← Pharma OS</a></p>
+    <h1>Commercial Growth OS</h1>
+  </header>
+
+  <main>
+    <section class="commercial-intro" id="commercial-intro"></section>
+
+    <div class="chain" id="chain" aria-label="The seven steps of the Commercial Growth OS"></div>
+
+    <section class="foundation-band" aria-label="The same six-layer foundation">
+      <div class="foundation-band-head">
+        <h2>Runs on the same six-layer foundation</h2>
+        <a class="foundation-band-link" href="index.html">See the full stack →</a>
+      </div>
+      <div class="foundation-strip" id="foundation-strip"></div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    Synthetic demonstration data.
+  </footer>
+
+  <script src="content.js"></script>
+  <script>
+    document.getElementById("commercial-intro").innerHTML =
+      `<p>${COMMERCIAL_INTRO.text} ${confidenceTag(COMMERCIAL_INTRO.confidence)}</p>`;
+    document.getElementById("chain").innerHTML = renderCommercialChain();
+    document.getElementById("foundation-strip").innerHTML = renderFoundationBand();
+  </script>
+</body>
+</html>

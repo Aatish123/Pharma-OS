@@ -19,6 +19,16 @@
   --gov:        #475569;   /* governance rail — deliberately neutral */
   --flag:       #B45309;   /* unconfirmed [?] items                 */
 
+  /* Commercial Growth OS steps 01-07 — magenta to blue, endpoints match
+     --l6-cockpit and --l1-data so the chain visually closes the loop with the stack */
+  --step-01: #A32BA8;
+  --step-02: #8D3BB2;
+  --step-03: #774ABC;
+  --step-04: #615AC7;
+  --step-05: #4A69D1;
+  --step-06: #3479DB;
+  --step-07: #1E88E5;
+
   --font-display: "Sora", sans-serif;
   --font-body: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -62,6 +72,21 @@ a {
   max-width: 1280px;
   margin: 0 auto;
   padding: 48px 32px 24px;
+}
+
+.page-eyebrow {
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.page-eyebrow a {
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.page-eyebrow a:hover,
+.page-eyebrow a:focus-visible {
+  text-decoration: underline;
 }
 
 .page-header h1 {
@@ -371,6 +396,27 @@ main {
   font-style: italic;
 }
 
+.detail-route {
+  padding: 0 24px 24px;
+}
+
+.detail-route-link {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--layer-color);
+  border: 1px solid var(--layer-color);
+  border-radius: 6px;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.detail-route-link:hover,
+.detail-route-link:focus-visible {
+  background: var(--layer-color);
+  color: #FFFFFF;
+}
+
 .detail-subgroup {
   margin-bottom: 14px;
 }
@@ -476,6 +522,164 @@ main {
   padding: 24px 32px 48px;
   color: var(--ink-faint);
   font-size: 0.8rem;
+}
+
+/* --- Commercial Growth OS (/commercial) --- */
+
+.commercial-intro {
+  padding: 8px 0 28px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  max-width: 760px;
+}
+
+.commercial-intro p {
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+
+.chain {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.cstep {
+  flex: 0 0 260px;
+  background: var(--step-color);
+  color: #FFFFFF;
+  border-radius: 6px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cstep-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.cstep-number {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.cstep-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.cstep-description {
+  font-size: 0.85rem;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
+.cstep-block h3 {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+.cstep-block p {
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.cstep .chip-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cstep .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.cstep .chip-flag {
+  background: var(--flag);
+  font-weight: 600;
+}
+
+.cstep-concept h3 {
+  opacity: 1;
+}
+
+/* --- Foundation band (same six layers, reduced to a strip) --- */
+
+.foundation-band {
+  padding: 36px 0 8px;
+}
+
+.foundation-band-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.foundation-band-head h2 {
+  font-size: 1.05rem;
+}
+
+.foundation-band-link {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  text-decoration: underline;
+}
+
+.foundation-strip {
+  display: flex;
+  gap: 4px;
+}
+
+.foundation-segment {
+  flex: 1;
+  background: var(--layer-color);
+  color: #FFFFFF;
+  border-radius: 4px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.foundation-number {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.foundation-name {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (prefers-reduced-motion: reduce) {
