@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand/GM Cockpit — Pharma OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="page-header">
+    <p class="page-eyebrow"><a href="login.html">← Choose your role</a></p>
+    <h1>Brand/GM Cockpit</h1>
+    <p class="cockpit-header-meta" id="cockpit-header-meta"></p>
+    <p class="persona-note" id="persona-note" hidden></p>
+  </header>
+
+  <main>
+    <section class="cockpit-section" id="national-section">
+      <h2>National trend</h2>
+      <p class="cockpit-section-sub">Brand TRx, national, 14 months since launch.</p>
+      <div class="hero-row">
+        <div class="hero-metric-block" id="national-metric"></div>
+        <div class="hero-chart-block">
+          <div id="national-chart"></div>
+          <div class="chart-x-labels" id="national-chart-labels"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cockpit-section" id="regional-section">
+      <h2>Regional split</h2>
+      <p class="cockpit-section-sub">The same 14 months, broken out by region — this is what the national number hides.</p>
+      <div class="region-grid" id="region-grid"></div>
+    </section>
+
+    <section class="cockpit-section" id="findings-section">
+      <h2>Findings</h2>
+      <p class="cockpit-section-sub">What the OS surfaced, who was involved, and who owns the response.</p>
+      <div class="autonomy-legend" id="autonomy-legend"></div>
+      <div class="findings-list" id="findings-list"></div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    Synthetic demonstration data.
+  </footer>
+
+  <script src="content.js"></script>
+  <script src="data.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const personaId = params.get("persona");
+    const persona = PERSONAS.find((p) => p.id === personaId);
+    const latestLabel = formatMonthLabel(COCKPIT_DATA.meta.postLaunchLabels[COCKPIT_DATA.meta.postLaunchLabels.length - 1]);
+
+    document.getElementById("cockpit-header-meta").innerHTML =
+      `<strong>${persona ? persona.name : "Guest"}</strong> · ${COCKPIT_DATA.meta.brand} (${COCKPIT_DATA.meta.company}) · ${COCKPIT_DATA.meta.indication} · As of ${latestLabel}`;
+
+    if (personaId && persona && persona.id !== "brand") {
+      const note = document.getElementById("persona-note");
+      note.textContent = `This concept currently ships the Brand/GM cockpit only — the ${persona.name} cockpit is on the roadmap.`;
+      note.hidden = false;
+    }
+
+    // --- National trend ---
+    const nat = COCKPIT_DATA.national;
+    const latestIdx = nat.brandTrx.length - 1;
+    const compareIdx = latestIdx - 3;
+    const trxChange = ((nat.brandTrx[latestIdx] - nat.brandTrx[compareIdx]) / nat.brandTrx[compareIdx]) * 100;
+    const shareChange = nat.share[latestIdx] - nat.share[compareIdx];
+    const compareLabel = formatMonthLabel(COCKPIT_DATA.meta.postLaunchLabels[compareIdx]);
+
+    document.getElementById("national-metric").innerHTML =
+      renderMetric({
+        id: "national-trx",
+        value: nat.brandTrx[latestIdx].toLocaleString() + " TRx",
+        label: "Brand TRx — national, " + latestLabel,
+        detail: `${trxChange >= 0 ? "+" : ""}${trxChange.toFixed(1)}% vs ${compareLabel} (${nat.brandTrx[compareIdx].toLocaleString()} TRx)`,
+        source: "NEXT Omnichannel Commercial Intelligence",
+        asOf: latestLabel,
+        origin: "agent"
+      }) +
+      renderMetric({
+        id: "national-share",
+        value: nat.share[latestIdx] + "%",
+        label: "Share of market — national, " + latestLabel,
+        detail: `${shareChange >= 0 ? "+" : ""}${shareChange.toFixed(1)}pp vs ${compareLabel} (${nat.share[compareIdx]}%)`,
+        source: "CEM — Channel Effectiveness Modeling",
+        asOf: latestLabel,
+        origin: "agent"
+      });
+
+    document.getElementById("national-chart").innerHTML =
+      renderLineChart(nat.brandTrx, { width: 640, height: 180, ariaLabel: "National brand TRx trend, 14 months since launch" });
+
+    const xLabelIdxs = [0, Math.floor((nat.brandTrx.length - 1) / 2), nat.brandTrx.length - 1];
+    document.getElementById("national-chart-labels").innerHTML =
+      xLabelIdxs.map((i) => `<span>${formatMonthLabel(COCKPIT_DATA.meta.postLaunchLabels[i])}</span>`).join("");
+
+    // --- Regional split ---
+    document.getElementById("region-grid").innerHTML =
+      COCKPIT_DATA.regions.map((r) => renderRegionCard(r, r.brandTrx)).join("");
+
+    // --- Findings ---
+    document.getElementById("autonomy-legend").innerHTML = renderAutonomyLegend();
+    document.getElementById("findings-list").innerHTML = FINDINGS.map(renderFindingCard).join("");
+
+    // --- Clickable numbers: reveal provenance in place ---
+    document.addEventListener("click", (event) => {
+      const toggle = event.target.closest(".metric-toggle");
+      if (!toggle) return;
+      const detail = document.getElementById(toggle.getAttribute("aria-controls"));
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      detail.hidden = isOpen;
+    });
+  </script>
+</body>
+</html>

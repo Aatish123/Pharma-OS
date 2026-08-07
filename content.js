@@ -650,3 +650,119 @@ function renderFoundationBand() {
       <span class="foundation-name">${layer.name}</span>
     </div>`).join("");
 }
+
+// ---------------------------------------------------------------------------
+// Cockpit (/os) — reused render helpers
+// ---------------------------------------------------------------------------
+
+function formatMonthLabel(ym) {
+  const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const [y, m] = ym.split("-");
+  return `${MONTH_NAMES[parseInt(m, 10) - 1]} ${y}`;
+}
+
+// Agent autonomy tiers (BRAIN.md section 1, layer 4). No explicit marker in
+// BRAIN.md; treated as [C] like the rest of the layer's operating framework.
+const AUTONOMY_TIERS = [
+  { tier: "T1", label: "Acts within guardrails" },
+  { tier: "T2", label: "Queues for human approval" },
+  { tier: "T3", label: "Advises only — cannot act without a named human" }
+];
+const AUTONOMY_TIERS_CONFIDENCE = "C";
+
+function renderAutonomyLegend() {
+  return `
+    <div class="autonomy-legend-head"><h3>Agent autonomy tiers</h3>${confidenceTag(AUTONOMY_TIERS_CONFIDENCE)}</div>
+    <ul class="autonomy-legend-list">
+      ${AUTONOMY_TIERS.map((t) => `<li><span class="tier-badge tier-${t.tier.toLowerCase()}">${t.tier}</span> ${t.label}</li>`).join("")}
+    </ul>`;
+}
+
+// A hand-rolled inline SVG line chart. No chart library, per CLAUDE.md.
+function renderLineChart(values, opts) {
+  opts = opts || {};
+  const width = opts.width || 560;
+  const height = opts.height || 160;
+  const pad = 20;
+  const color = opts.color || "var(--l4-agents)";
+  const max = Math.max(...values) * 1.12;
+  const stepX = (width - pad * 2) / (values.length - 1);
+  const points = values.map((v, i) => {
+    const x = pad + i * stepX;
+    const y = height - pad - (v / max) * (height - pad * 2);
+    return [x, y];
+  });
+  const pathD = points.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+  const baseY = (height - pad).toFixed(1);
+  const areaD = `${pathD} L${points[points.length - 1][0].toFixed(1)},${baseY} L${points[0][0].toFixed(1)},${baseY} Z`;
+  const dots = opts.dots === false ? "" : points.map((p) => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.5" fill="${color}"></circle>`).join("");
+  return `
+    <svg viewBox="0 0 ${width} ${height}" class="line-chart" role="img" aria-label="${opts.ariaLabel || ""}">
+      ${opts.area === false ? "" : `<path d="${areaD}" fill="${color}" opacity="0.12"></path>`}
+      <path d="${pathD}" fill="none" stroke="${color}" stroke-width="2"></path>
+      ${dots}
+    </svg>`;
+}
+
+// A number that reveals its provenance (source system, freshness, human or
+// agent origin) when clicked, in place — the same interaction language as
+// the layer accordion on /.
+function renderMetric(m) {
+  return `
+    <div class="metric">
+      <button class="metric-toggle" aria-expanded="false" aria-controls="detail-${m.id}">
+        <span class="metric-value">${m.value}</span>
+        <span class="metric-label">${m.label}</span>
+      </button>
+      <div class="metric-detail" id="detail-${m.id}" hidden>
+        ${m.detail ? `<p class="metric-detail-line">${m.detail}</p>` : ""}
+        <p class="metric-provenance">Source: ${m.source} · As of ${m.asOf} · ${m.origin === "agent" ? "Agent-generated" : "Human-reported"}</p>
+      </div>
+    </div>`;
+}
+
+function renderRegionCard(region, values) {
+  const latest = values[values.length - 1];
+  const threeAgo = values[values.length - 4];
+  const change = ((latest - threeAgo) / threeAgo) * 100;
+  const direction = change >= 0 ? "up" : "down";
+  const sign = change >= 0 ? "+" : "";
+  return `
+    <div class="region-card">
+      <div class="region-card-head">
+        <h3>${region.name}</h3>
+        <span class="region-change region-change-${direction}">${sign}${change.toFixed(1)}%</span>
+      </div>
+      ${renderLineChart(values, { width: 220, height: 64, dots: false, color: direction === "up" ? "var(--trend-up)" : "var(--trend-down)", ariaLabel: `${region.name} brand TRx trend` })}
+      <p class="region-latest">${latest.toLocaleString()} TRx · Jul 2026</p>
+    </div>`;
+}
+
+function renderFindingLayers(layerNumbers) {
+  return layerNumbers.map((n) => {
+    const layer = PHARMA_OS_LAYERS.find((l) => l.number === n);
+    return `<span class="finding-layer-chip" style="--chip-color: var(${layer.colorVar})">L${n} · ${layer.name}</span>`;
+  }).join("");
+}
+
+function renderFindingAgents(agents) {
+  return agents.map((a) => `<span class="finding-agent-chip">${a.name} <span class="tier-badge tier-${a.tier.toLowerCase()}">${a.tier}</span></span>`).join("");
+}
+
+function renderFindingCard(finding) {
+  return `
+    <article class="finding-card">
+      <h3>${finding.title}</h3>
+      <p class="finding-summary">${finding.summary}</p>
+      <div class="finding-metrics">${finding.metrics.map(renderMetric).join("")}</div>
+      ${finding.regions ? `
+        <ul class="finding-regions">
+          ${finding.regions.map((r) => `<li class="region-change region-change-${r.direction}">${r.name} ${r.change}</li>`).join("")}
+        </ul>` : ""}
+      <div class="finding-meta">
+        <div class="finding-meta-row"><span class="finding-meta-label">OS layers involved</span><div class="finding-layers">${renderFindingLayers(finding.layers)}</div></div>
+        <div class="finding-meta-row"><span class="finding-meta-label">Agents involved</span><div class="finding-agents">${renderFindingAgents(finding.agents)}</div></div>
+        <div class="finding-meta-row"><span class="finding-meta-label">Owns the response</span><span class="finding-owner">${finding.owner}</span></div>
+      </div>
+    </article>`;
+}
