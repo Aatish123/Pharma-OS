@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose your role — Pharma OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="page-header">
+    <p class="page-eyebrow"><a href="commercial.html">← Commercial Growth OS</a></p>
+    <h1>Choose your role</h1>
+    <p class="login-intro">Each persona sees a different cockpit. Scope is enforced, not cosmetic.</p>
+  </header>
+
+  <main>
+    <form class="persona-form" action="os.html" method="get">
+      <div class="persona-grid" id="persona-grid" role="radiogroup" aria-label="Choose a persona"></div>
+      <p class="persona-separation-note" id="persona-separation-note"></p>
+      <button type="submit" class="continue-button">Continue →</button>
+    </form>
+  </main>
+
+  <footer class="page-footer">
+    Synthetic demonstration data.
+  </footer>
+
+  <script src="content.js"></script>
+  <script>
+    document.getElementById("persona-grid").innerHTML = renderPersonaCards();
+    document.getElementById("persona-separation-note").innerHTML =
+      `${PERSONA_SEPARATION_NOTE.text} ${confidenceTag(PERSONA_SEPARATION_NOTE.confidence)}`;
+  </script>
+</body>
+</html>

@@ -536,6 +536,65 @@ function renderPlatformBand() {
 }
 
 // ---------------------------------------------------------------------------
+// Personas (/login) — BRAIN.md section 6
+// ---------------------------------------------------------------------------
+
+const PERSONAS = [
+  {
+    id: "cco",
+    name: "Chief Commercial Officer",
+    owns: "Commercial P&L",
+    opensOn: "Portfolio share, spend efficiency, launch trajectory"
+  },
+  {
+    id: "brand",
+    name: "Brand / General Manager",
+    owns: "One brand's P&L",
+    opensOn: "Brand growth signals, competitive moves, access barriers"
+  },
+  {
+    id: "omnichannel",
+    name: "Omnichannel Lead",
+    owns: "Journeys and channel mix",
+    opensOn: "Campaign performance, content effectiveness, channel ROI"
+  },
+  {
+    id: "field",
+    name: "Field Excellence",
+    owns: "Force productivity",
+    opensOn: "Territory attainment, call quality, coaching signals"
+  },
+  {
+    id: "access",
+    name: "Market Access",
+    owns: "Payer and affordability",
+    opensOn: "Coverage, prior auth, time to therapy"
+  },
+  {
+    id: "admin",
+    name: "Suite Admin",
+    owns: "Configuration",
+    opensOn: "Data sources, agent tiers, audit"
+  }
+];
+
+const PERSONA_SEPARATION_NOTE = {
+  text: "Enforce commercial–medical separation on every persona. A commercial persona attempting to open a medical insight gets a firewall response with no override path.",
+  confidence: "V"
+};
+
+function renderPersonaCards() {
+  return PERSONAS.map((p) => `
+    <label class="persona-card">
+      <input type="radio" name="persona" value="${p.id}" required>
+      <span class="persona-radio" aria-hidden="true"></span>
+      <span class="persona-name">${p.name}</span>
+      <span class="persona-field"><span class="persona-field-label">Owns</span> ${p.owns}</span>
+      <span class="persona-field"><span class="persona-field-label">Opens on</span> ${p.opensOn}</span>
+    </label>`).join("");
+}
+
+// ---------------------------------------------------------------------------
 // Commercial Growth OS (/commercial) — reused render helpers
 // ---------------------------------------------------------------------------
 
