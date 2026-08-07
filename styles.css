@@ -682,6 +682,133 @@ main {
   text-overflow: ellipsis;
 }
 
+.page-next {
+  margin-top: 32px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+}
+
+.page-next a {
+  color: var(--l4-agents);
+  text-decoration: none;
+}
+
+.page-next a:hover,
+.page-next a:focus-visible {
+  text-decoration: underline;
+}
+
+/* --- Personas (/login) --- */
+
+.login-intro {
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  max-width: 640px;
+  margin-top: 4px;
+}
+
+.persona-form {
+  padding: 28px 0 8px;
+}
+
+.persona-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+}
+
+.persona-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.persona-card input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.persona-card:has(input:checked) {
+  border-color: var(--l4-agents);
+  background: color-mix(in srgb, var(--l4-agents) 6%, var(--paper));
+}
+
+.persona-card:focus-within {
+  outline: 2px solid var(--l4-agents);
+  outline-offset: 2px;
+}
+
+.persona-radio {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-faint);
+}
+
+.persona-card input:checked + .persona-radio {
+  border-color: var(--l4-agents);
+  border-width: 5px;
+}
+
+.persona-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  padding-right: 28px;
+}
+
+.persona-field {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+
+.persona-field-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-faint);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.persona-separation-note {
+  max-width: 720px;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-bottom: 24px;
+}
+
+.continue-button {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: #FFFFFF;
+  background: var(--l4-agents);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+
+.continue-button:hover,
+.continue-button:focus-visible {
+  background: color-mix(in srgb, var(--l4-agents) 85%, black);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .layer-chevron,
   .layer-detail-wrapper {
