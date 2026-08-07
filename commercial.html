@@ -37,8 +37,7 @@
 
   <script src="content.js"></script>
   <script>
-    document.getElementById("commercial-intro").innerHTML =
-      `<p>${COMMERCIAL_INTRO.text} ${confidenceTag(COMMERCIAL_INTRO.confidence)}</p>`;
+    document.getElementById("commercial-intro").innerHTML = `<p>${COMMERCIAL_INTRO.text}</p>`;
     document.getElementById("chain").innerHTML = renderCommercialChain();
     document.getElementById("foundation-strip").innerHTML = renderFoundationBand();
   </script>
