@@ -257,7 +257,8 @@ const PHARMA_OS_LAYERS = [
       text: "An operating system with no visible place for a human is exactly what buyers have been burned by. The cockpit is the trust surface.",
       confidence: "C"
     },
-    indegeneAssets: []
+    indegeneAssets: [],
+    route: { href: "commercial.html", label: "See it in action — Commercial Growth OS →" }
   }
 ];
 
@@ -305,6 +306,121 @@ const ALLIANCE_NOTE = {
   text: "Alliance posture is neutral and outcome-led: choose the ecosystem pattern that fits the client's architecture, maturity and compliance needs.",
   confidence: "V"
 };
+
+// The Commercial Growth OS (BRAIN.md section 5) — seven steps, magenta to blue.
+// Description lines carry no explicit marker in BRAIN.md; they inherit the
+// section's own framing ("Pharma OS in action for commercial ... `[C]`").
+const COMMERCIAL_INTRO = {
+  text: "Pharma OS in action for commercial. One intelligence foundation, every commercial decision, measurable impact.",
+  confidence: "C"
+};
+
+const COMMERCIAL_STEPS = [
+  {
+    number: "01",
+    name: "Market Intelligence",
+    colorVar: "--step-01",
+    description: { text: "Identify opportunities, prioritise markets, understand HCP, patient and competitor dynamics.", confidence: "C" },
+    verified: {
+      label: "Verified platforms",
+      items: ["NEXT Social Listening", "NEXT Data & Insight Platform", "Disease landscaping, market sizing, primary research"],
+      confidence: "V"
+    },
+    conceptNames: [{ name: "Tandem™ — AI Opportunity Scout", confidence: "?" }],
+    impact: { text: "20–30% better opportunity identification; 15–25% improved forecast accuracy", confidence: "C" }
+  },
+  {
+    number: "02",
+    name: "Brand Strategy & Planning",
+    colorVar: "--step-02",
+    description: { text: "Build winning strategies, forecast scenarios, optimise brand plans across markets.", confidence: "C" },
+    verified: {
+      label: "Verified platforms",
+      items: ["NEXT Forecasting / ForeSight", "NEXT Launch Planning", "Digital Excellence Maturity Assessment / CS-EMA / OmniIQ"],
+      confidence: "V"
+    },
+    conceptNames: [{ name: "BrandIQ™ — AI Planning & Forecasting Scenario Simulator", confidence: "?" }],
+    impact: { text: "50–75% reduction in planning cycle; 30–40% faster scenario analysis", confidence: "C" }
+  },
+  {
+    number: "03",
+    name: "Content Supply Chain",
+    colorVar: "--step-03",
+    description: { text: "Create, review, localise and approve compliant content at scale.", confidence: "C" },
+    verified: {
+      label: "Verified platforms",
+      items: ["Content Super App", "NEXT Commercial Content Intelligence (NCCI)", "NEXT MLR / MLR 2.0", "Immersive Studio"],
+      confidence: "V"
+    },
+    conceptNames: [{ name: "Design Connect™", confidence: "?" }],
+    impact: { text: "75% faster content creation; 50% lower production cost; 3–5x faster MLR", confidence: "C" },
+    proofPoints: {
+      items: ["65% savings delivered", "60% content repurpose", "56% increase in content reuse", "40% better speed-to-market", ">45% content reuse and 97% SLA adherence in a masked case"],
+      confidence: "V"
+    }
+  },
+  {
+    number: "04",
+    name: "Omnichannel Engagement",
+    colorVar: "--step-04",
+    description: { text: "Deliver personalised engagement across channels and optimise field execution.", confidence: "C" },
+    verified: {
+      label: "Verified platforms",
+      items: ["NEXT Omnichannel Commercial Intelligence", "Invisage", "Omni NBA Agent", "NEXT Campaign Collaboration / Collaborator", "CDP capability"],
+      confidence: "V"
+    },
+    impact: { text: "2–3x more campaigns per year; 20–25% higher HCP engagement; 30–40% higher field productivity", confidence: "C" },
+    proofPoints: {
+      items: ["45% engagement increase and 65% time-to-market reduction in a masked CDP case", "1M+ HCP profiles", "17+ personalised channels"],
+      confidence: "V"
+    }
+  },
+  {
+    number: "05",
+    name: "Performance Intelligence",
+    colorVar: "--step-05",
+    description: { text: "Measure impact, optimise investment, drive continuous improvement.", confidence: "C" },
+    verified: {
+      label: "Verified platforms",
+      items: ["CEM — Channel Effectiveness Modeling", "Customer 360 / HCP 360", "Insights Agent / Insight Genie", "Commercial Knowledge Assistant"],
+      confidence: "V"
+    },
+    impact: { text: "20–30% higher marketing ROI; 15–25% improvement in brand performance", confidence: "C" },
+    proofPoints: {
+      items: ["30–40% leaner operations", "75% faster insights", "20% NBA adoption increase", "20% decrease in speed-to-market for launch analytics"],
+      confidence: "V"
+    }
+  },
+  {
+    number: "06",
+    name: "Market Access & Affordability",
+    colorVar: "--step-06",
+    description: { text: "Generate evidence, engage payers, optimise pricing and access strategies.", confidence: "C" },
+    verified: {
+      label: "Verified capability",
+      items: ["Market access analytics", "Payer / formulary data integration", "HEOR when connected to commercialisation"],
+      confidence: "V"
+    },
+    conceptNames: [{ name: "HEOR & Pricing Intelligence — Value & Evidence Generator", confidence: "?" }],
+    impact: { text: "2–3x faster evidence generation; 20–30% faster access approvals", confidence: "C" }
+  },
+  {
+    number: "07",
+    name: "Patient Services & Adherence",
+    colorVar: "--step-07",
+    description: { text: "Deliver personalised patient support, improve adherence and outcomes.", confidence: "C" },
+    verified: {
+      label: "Verified capability",
+      items: [
+        "PSP strategy and design", "Care coordinator / nurse navigator models", "Adherence SMS engagement",
+        "Reimbursement and hub reporting", "Co-pay analysis", "Patient journey analytics translated to HCP-level intelligence"
+      ],
+      confidence: "V"
+    },
+    conceptNames: [{ name: "Patient Services AI — Adherence Intelligence Hub Optimization", confidence: "?" }],
+    impact: { text: "20–30% higher patient adherence; 15–25% lower patient support costs", confidence: "C" }
+  }
+];
 
 // ---------------------------------------------------------------------------
 // Render helpers — reused across pages
@@ -380,6 +496,7 @@ function renderLayerBlock(layer) {
               ${renderAssetList(layer.indegeneAssets)}
             </div>
           </div>
+          ${layer.route ? `<div class="detail-route"><a class="detail-route-link" href="${layer.route.href}">${layer.route.label}</a></div>` : ""}
         </div>
       </div>
     </div>`;
@@ -416,4 +533,61 @@ function renderPlatformBand() {
       <ul class="chip-list">${band.items.map((i) => `<li class="chip"><span class="chip-dot" aria-hidden="true"></span>${i}</li>`).join("")}</ul>
       ${band.note ? `<p class="platform-note">${band.note.text} ${confidenceTag(band.note.confidence)}</p>` : ""}
     </div>`).join("") + `<p class="platform-alliance-note">${ALLIANCE_NOTE.text} ${confidenceTag(ALLIANCE_NOTE.confidence)}</p>`;
+}
+
+// ---------------------------------------------------------------------------
+// Commercial Growth OS (/commercial) — reused render helpers
+// ---------------------------------------------------------------------------
+
+function renderStepChipList(items, confidence) {
+  return `<ul class="chip-list">${items.map((i) => `<li class="chip"><span class="chip-dot" aria-hidden="true"></span>${i}</li>`).join("")}</ul> ${confidenceTag(confidence)}`;
+}
+
+function renderCommercialStep(step) {
+  return `
+    <div class="cstep" style="--step-color: var(${step.colorVar})">
+      <div class="cstep-head">
+        <span class="cstep-number">${step.number}</span>
+        <h2 class="cstep-name">${step.name}</h2>
+      </div>
+      <p class="cstep-description">${step.description.text} ${confidenceTag(step.description.confidence)}</p>
+
+      <div class="cstep-block">
+        <h3>${step.verified.label}</h3>
+        ${renderStepChipList(step.verified.items, step.verified.confidence)}
+      </div>
+
+      ${step.conceptNames ? `
+        <div class="cstep-block cstep-concept">
+          <h3>Concept slide name</h3>
+          <ul class="chip-list">
+            ${step.conceptNames.map((c) => `<li class="chip chip-flag">${c.name} ${confidenceTag(c.confidence)}</li>`).join("")}
+          </ul>
+        </div>` : ""}
+
+      <div class="cstep-block">
+        <h3>Impact claimed</h3>
+        <p>${step.impact.text} ${confidenceTag(step.impact.confidence)}</p>
+      </div>
+
+      ${step.proofPoints ? `
+        <div class="cstep-block">
+          <h3>Verified proof points</h3>
+          ${renderStepChipList(step.proofPoints.items, step.proofPoints.confidence)}
+        </div>` : ""}
+    </div>`;
+}
+
+function renderCommercialChain() {
+  return COMMERCIAL_STEPS.map(renderCommercialStep).join("");
+}
+
+// The thin band beneath the seven steps: the same six layers, reduced to a
+// caption strip, so the commercial chain is visibly running on one foundation.
+function renderFoundationBand() {
+  return PHARMA_OS_LAYERS.map((layer) => `
+    <div class="foundation-segment" style="--layer-color: var(${layer.colorVar})">
+      <span class="foundation-number">L${layer.number}</span>
+      <span class="foundation-name">${layer.name}</span>
+    </div>`).join("");
 }
