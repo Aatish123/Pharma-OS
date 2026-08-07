@@ -12,11 +12,23 @@
 <body>
   <header class="page-header">
     <h1>Pharma OS</h1>
-    <p>The enterprise decision operating system for life sciences — six layers, bottom to top.</p>
+    <p>The enterprise decision operating system for life sciences — six layers, bottom to top. Click any layer to open it.</p>
   </header>
 
   <main>
-    <div class="stack" id="stack"></div>
+    <section class="outcomes-band" id="outcomes-band" aria-label="Business outcomes"></section>
+
+    <div class="diagram">
+      <aside class="governance-rail" id="governance-rail" aria-label="Governance, applies to all six layers"></aside>
+      <div class="stack" id="stack" aria-label="The six layers of Pharma OS"></div>
+    </div>
+
+    <section class="platform-band" id="platform-band" aria-label="Platform-agnostic foundation">
+      <div class="platform-band-head">
+        <h2>Platform-agnostic foundation</h2>
+      </div>
+      <div class="platform-grid" id="platform-grid"></div>
+    </section>
   </main>
 
   <footer class="page-footer">
@@ -25,22 +37,30 @@
 
   <script src="content.js"></script>
   <script>
+    document.getElementById("outcomes-band").innerHTML = renderOutcomesBand();
+    document.getElementById("governance-rail").innerHTML = renderGovernanceRail();
+    document.getElementById("platform-grid").innerHTML = renderPlatformBand();
+
     const stack = document.getElementById("stack");
+    stack.innerHTML = PHARMA_OS_LAYERS.map(renderLayerBlock).join("");
 
-    PHARMA_OS_LAYERS.forEach((layer) => {
-      const el = document.createElement("section");
-      el.className = "layer";
-      el.style.backgroundColor = `var(${layer.colorVar})`;
+    stack.addEventListener("click", (event) => {
+      const header = event.target.closest(".layer-header");
+      if (!header) return;
 
-      el.innerHTML = `
-        <span class="layer-number">L${layer.number}</span>
-        <div class="layer-body">
-          <h2 class="layer-name">${layer.name}</h2>
-          <p class="layer-tagline">${layer.tagline}</p>
-        </div>
-      `;
+      const layerEl = header.closest(".layer");
+      const isExpanded = layerEl.getAttribute("data-expanded") === "true";
 
-      stack.appendChild(el);
+      // Accordion: only one layer open at a time, so the stack stays one object.
+      stack.querySelectorAll(".layer").forEach((el) => {
+        el.removeAttribute("data-expanded");
+        el.querySelector(".layer-header").setAttribute("aria-expanded", "false");
+      });
+
+      if (!isExpanded) {
+        layerEl.setAttribute("data-expanded", "true");
+        header.setAttribute("aria-expanded", "true");
+      }
     });
   </script>
 </body>
