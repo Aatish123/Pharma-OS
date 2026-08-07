@@ -31,8 +31,7 @@
   <script src="content.js"></script>
   <script>
     document.getElementById("persona-grid").innerHTML = renderPersonaCards();
-    document.getElementById("persona-separation-note").innerHTML =
-      `${PERSONA_SEPARATION_NOTE.text} ${confidenceTag(PERSONA_SEPARATION_NOTE.confidence)}`;
+    document.getElementById("persona-separation-note").innerHTML = PERSONA_SEPARATION_NOTE.text;
   </script>
 </body>
 </html>

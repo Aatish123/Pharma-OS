@@ -45,6 +45,25 @@
     stack.innerHTML = PHARMA_OS_LAYERS.map(renderLayerBlock).join("");
 
     stack.addEventListener("click", (event) => {
+      const tab = event.target.closest(".domain-tab");
+      if (tab) {
+        const layerEl = tab.closest(".layer");
+        const domain = tab.dataset.domain;
+
+        layerEl.querySelectorAll(".domain-tab").forEach((t) => {
+          const active = t === tab;
+          t.classList.toggle("is-active", active);
+          t.setAttribute("aria-pressed", String(active));
+        });
+        layerEl.querySelectorAll("[data-leader-panel]").forEach((p) => {
+          p.classList.toggle("is-active", p.dataset.leaderPanel === domain);
+        });
+        layerEl.querySelectorAll("[data-source-group]").forEach((g) => {
+          g.classList.toggle("is-active", g.dataset.sourceGroup === domain);
+        });
+        return;
+      }
+
       const header = event.target.closest(".layer-header");
       if (!header) return;
 
